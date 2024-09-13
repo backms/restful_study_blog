@@ -6,9 +6,12 @@ import com.springblog.springblog.api.response.PostResponse;
 import com.springblog.springblog.api.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -32,11 +35,15 @@ public class PostController {
      *      /posts/{postId} -> 글 한개만 조회
      */
     @GetMapping("/posts/{postId}")
-    public PostResponse get(@PathVariable(name = "postId") Long id) {
+    public PostResponse get(@PathVariable Long postId) {
         // Request 클래스(PostCreate)
         // Response 클래스(PostResponse)
-        PostResponse response = postService.get(id);
-        return response;
+        return postService.get(postId);
+    }
+
+    @GetMapping("/posts")
+    public List<PostResponse> getList(Pageable pageable) {
+        return postService.getList(pageable);
     }
 
 

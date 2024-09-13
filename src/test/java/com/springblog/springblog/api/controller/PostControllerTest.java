@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springblog.springblog.api.domain.Post;
 import com.springblog.springblog.api.repository.PostRepository;
 import com.springblog.springblog.api.requset.PostCreate;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +19,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.MediaType.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -142,6 +148,57 @@ class PostControllerTest {
                 .andDo(print());  // http 요청에 대한 summary를 남겨줌.
 
     }
+
+
+    @Test
+    @DisplayName("글 여러개 조회")
+    void test5() throws Exception {
+        // given
+        // 30개 게시글 저장
+        List<Post> requestPosts = IntStream.range(1, 31)
+                .mapToObj(i-> Post.builder()
+                        .title("테스트 제목 " + i)
+                        .content("푸르지오 " + i)
+                        .build())
+                .collect(Collectors.toList());
+
+        postRepository.saveAll(requestPosts);
+
+        // 글 2개 생성
+//        Post post1 = postRepository.save(Post.builder()
+//                .title("foo1")
+//                .content("bar1")
+//                .build());
+//
+//        Post post2 = postRepository.save(Post.builder()
+//                .title("foo2")
+//                .content("bar2")
+//                .build());
+
+
+        // 클라이언트 요구사항
+        //  -> json 응답에서 title값 길이를 최대 10글자로 해주세요.
+
+        // expected
+        mockMvc.perform(get("/posts?page=1")
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", is(20)))
+                .andExpect(jsonPath("$[0].id").value("1"))
+                .andExpect(jsonPath("$[0].title").value("테스트 제목 1"))
+                .andExpect(jsonPath("$[0].content").value("푸르지오 1"))
+//                .andExpect(jsonPath("$.length()", Matchers.is(2)))
+//                .andExpect(jsonPath("$[0].id").value(post1.getId()))
+//                .andExpect(jsonPath("$[0].title").value("foo1"))
+//                .andExpect(jsonPath("$[0].content").value("bar1"))
+//                .andExpect(jsonPath("$[1].id").value(post2.getId()))
+//                .andExpect(jsonPath("$[1].title").value("foo2"))
+//                .andExpect(jsonPath("$[1].content").value("bar2"))
+                .andDo(print());  // http 요청에 대한 summary를 남겨줌.
+
+    }
+
+
 
 
 
