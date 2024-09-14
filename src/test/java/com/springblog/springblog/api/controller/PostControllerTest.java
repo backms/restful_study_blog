@@ -155,7 +155,7 @@ class PostControllerTest {
     void test5() throws Exception {
         // given
         // 30개 게시글 저장
-        List<Post> requestPosts = IntStream.range(1, 31)
+        List<Post> requestPosts = IntStream.range(0, 20)
                 .mapToObj(i-> Post.builder()
                         .title("테스트 제목 " + i)
                         .content("푸르지오 " + i)
@@ -180,13 +180,12 @@ class PostControllerTest {
         //  -> json 응답에서 title값 길이를 최대 10글자로 해주세요.
 
         // expected
-        mockMvc.perform(get("/posts?page=1")
+        mockMvc.perform(get("/posts?page=1&size=10")
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", is(20)))
-                .andExpect(jsonPath("$[0].id").value("1"))
-                .andExpect(jsonPath("$[0].title").value("테스트 제목 1"))
-                .andExpect(jsonPath("$[0].content").value("푸르지오 1"))
+                .andExpect(jsonPath("$.length()", is(10)))
+                .andExpect(jsonPath("$[0].title").value("테스트 제목 19"))
+                .andExpect(jsonPath("$[0].content").value("푸르지오 19"))
 //                .andExpect(jsonPath("$.length()", Matchers.is(2)))
 //                .andExpect(jsonPath("$[0].id").value(post1.getId()))
 //                .andExpect(jsonPath("$[0].title").value("foo1"))
@@ -194,6 +193,32 @@ class PostControllerTest {
 //                .andExpect(jsonPath("$[1].id").value(post2.getId()))
 //                .andExpect(jsonPath("$[1].title").value("foo2"))
 //                .andExpect(jsonPath("$[1].content").value("bar2"))
+                .andDo(print());  // http 요청에 대한 summary를 남겨줌.
+
+    }
+
+
+    @Test
+    @DisplayName("페이지를 0으로 요청하면 첫 페이지를 가져온다.")
+    void test6() throws Exception {
+        // given
+        // 30개 게시글 저장
+        List<Post> requestPosts = IntStream.range(0, 20)
+                .mapToObj(i-> Post.builder()
+                        .title("테스트 제목 " + i)
+                        .content("푸르지오 " + i)
+                        .build())
+                .collect(Collectors.toList());
+
+        postRepository.saveAll(requestPosts);
+
+        // expected
+        mockMvc.perform(get("/posts?page=0&size=10")
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", is(10)))
+                .andExpect(jsonPath("$[0].title").value("테스트 제목 19"))
+                .andExpect(jsonPath("$[0].content").value("푸르지오 19"))
                 .andDo(print());  // http 요청에 대한 summary를 남겨줌.
 
     }

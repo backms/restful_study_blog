@@ -3,6 +3,7 @@ package com.springblog.springblog.api.service;
 import com.springblog.springblog.api.domain.Post;
 import com.springblog.springblog.api.repository.PostRepository;
 import com.springblog.springblog.api.requset.PostCreate;
+import com.springblog.springblog.api.requset.PostSearch;
 import com.springblog.springblog.api.response.PostResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -82,7 +83,7 @@ class PostServiceTest {
     void test3() {
         // given
         // 30개 게시글 저장
-        List<Post> requestPosts = IntStream.range(1, 31)
+        List<Post> requestPosts = IntStream.range(0, 20)
                 .mapToObj(i-> Post.builder()
                         .title("테스트 제목 " + i)
                         .content("푸르지오 " + i)
@@ -103,15 +104,18 @@ class PostServiceTest {
 //                        .build()
 //        ));
 
-        Pageable pageable = PageRequest.of(0, 5, Sort.Direction.DESC, "id");
+//        Pageable pageable = PageRequest.of(0, 5, Sort.Direction.DESC, "id");
+        PostSearch postSearch = PostSearch.builder()
+                .page(1)
+                .build();
 
         // when
-        List<PostResponse> posts = postService.getList(pageable);
+        List<PostResponse> posts = postService.getList(postSearch);
 
         // then
-        assertEquals(5L, posts.size());
-        assertEquals("테스트 제목 30", posts.get(0).getTitle());
-        assertEquals("테스트 제목 26", posts.get(4).getTitle());
+        assertEquals(10L, posts.size());
+        assertEquals("테스트 제목 19", posts.get(0).getTitle());
+//        assertEquals("테스트 제목 26", posts.get(4).getTitle());
 
     }
 

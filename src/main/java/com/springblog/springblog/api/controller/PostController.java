@@ -2,6 +2,7 @@ package com.springblog.springblog.api.controller;
 
 import com.springblog.springblog.api.domain.Post;
 import com.springblog.springblog.api.requset.PostCreate;
+import com.springblog.springblog.api.requset.PostSearch;
 import com.springblog.springblog.api.response.PostResponse;
 import com.springblog.springblog.api.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -42,8 +43,8 @@ public class PostController {
     }
 
     @GetMapping("/posts")
-    public List<PostResponse> getList(Pageable pageable) {
-        return postService.getList(pageable);
+    public List<PostResponse> getList(@ModelAttribute PostSearch postSearch) {
+        return postService.getList(postSearch);
     }
 
 
