@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springblog.springblog.api.domain.Post;
 import com.springblog.springblog.api.repository.PostRepository;
 import com.springblog.springblog.api.requset.PostCreate;
+import com.springblog.springblog.api.requset.PostEdit;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -219,12 +220,35 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.length()", is(10)))
                 .andExpect(jsonPath("$[0].title").value("테스트 제목 19"))
                 .andExpect(jsonPath("$[0].content").value("푸르지오 19"))
-                .andDo(print());  // http 요청에 대한 summary를 남겨줌.
+                .andDo(print());
 
     }
 
 
+    @Test
+    @DisplayName("글 제목 수정")
+    void test7() throws Exception {
+        // given
+        // 30개 게시글 저장
+        Post post = Post.builder()
+                .title("foo")
+                .content("bar")
+                .build();
+        postRepository.save(post);
 
+        PostEdit postEdit = PostEdit.builder()
+                .title("foo ga")
+                .content("ba")
+                .build();
+
+        // expected
+        mockMvc.perform(patch("/posts/{postId}", post.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(postEdit)))
+                .andExpect(status().isOk())
+                .andDo(print());
+
+    }
 
 
 }

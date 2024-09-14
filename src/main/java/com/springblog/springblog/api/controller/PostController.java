@@ -2,6 +2,7 @@ package com.springblog.springblog.api.controller;
 
 import com.springblog.springblog.api.domain.Post;
 import com.springblog.springblog.api.requset.PostCreate;
+import com.springblog.springblog.api.requset.PostEdit;
 import com.springblog.springblog.api.requset.PostSearch;
 import com.springblog.springblog.api.response.PostResponse;
 import com.springblog.springblog.api.service.PostService;
@@ -45,6 +46,11 @@ public class PostController {
     @GetMapping("/posts")
     public List<PostResponse> getList(@ModelAttribute PostSearch postSearch) {
         return postService.getList(postSearch);
+    }
+
+    @PatchMapping("/posts/{postId}")
+    public PostResponse edit(@PathVariable Long postId, @RequestBody @Valid PostEdit request) {
+        return postService.edit(postId, request);
     }
 
 

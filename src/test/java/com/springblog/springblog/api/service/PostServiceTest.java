@@ -3,6 +3,7 @@ package com.springblog.springblog.api.service;
 import com.springblog.springblog.api.domain.Post;
 import com.springblog.springblog.api.repository.PostRepository;
 import com.springblog.springblog.api.requset.PostCreate;
+import com.springblog.springblog.api.requset.PostEdit;
 import com.springblog.springblog.api.requset.PostSearch;
 import com.springblog.springblog.api.response.PostResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -119,5 +120,56 @@ class PostServiceTest {
 
     }
 
+
+    @Test
+    @DisplayName("글 제목 수정")
+    void test4() {
+        // given
+        Post post = Post.builder()
+                .title("foo")
+                .content("bar")
+                .build();
+        postRepository.save(post);
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("변경된 foo")
+                .build();
+
+        // when
+        postService.edit(post.getId(), postEdit);
+
+        // then
+        Post changedPost = postRepository.findById(post.getId())
+                .orElseThrow(() -> new RuntimeException("글이 존재하지 않습니다. id=" + post.getId()));
+        assertEquals("변경된 foo", changedPost.getTitle());
+
+    }
+
+
+    @Test
+    @DisplayName("글 내용 수정")
+    void test5() {
+        // given
+        Post post = Post.builder()
+                .title("foo")
+                .content("bar")
+                .build();
+        postRepository.save(post);
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("foo")
+                .content("barbel")
+                .build();
+
+        // when
+        postService.edit(post.getId(), postEdit);
+
+        // then
+        Post changedPost = postRepository.findById(post.getId())
+                .orElseThrow(() -> new RuntimeException("글이 존재하지 않습니다. id=" + post.getId()));
+        assertEquals("barbel", changedPost.getContent());
+
+
+    }
 
 }

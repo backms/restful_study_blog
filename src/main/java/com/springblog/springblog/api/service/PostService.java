@@ -1,8 +1,10 @@
 package com.springblog.springblog.api.service;
 
 import com.springblog.springblog.api.domain.Post;
+import com.springblog.springblog.api.domain.PostEditor;
 import com.springblog.springblog.api.requset.PostCreate;
 import com.springblog.springblog.api.repository.PostRepository;
+import com.springblog.springblog.api.requset.PostEdit;
 import com.springblog.springblog.api.requset.PostSearch;
 import com.springblog.springblog.api.response.PostResponse;
 import lombok.RequiredArgsConstructor;
@@ -11,11 +13,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @Slf4j
 @Service
@@ -55,6 +59,25 @@ public class PostService {
         return postRepository.getList(postSearch).stream()
                 .map(post -> new PostResponse(post))
                 .collect(Collectors.toList());
+    }
+
+
+    @Transactional
+    public PostResponse edit(Long id, PostEdit postEdit) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+
+
+        PostEditor.PostEditorBuilder editorBuilder = post.toEditor();
+
+        PostEditor postEditor = editorBuilder.title(postEdit.getTitle())
+                                             .content(postEdit.getContent())
+                                             .build();
+
+        post.edit(postEditor);
+
+        return new PostResponse(post);
+
     }
 
 
