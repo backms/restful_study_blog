@@ -203,7 +203,7 @@ class PostControllerTest {
     @DisplayName("페이지를 0으로 요청하면 첫 페이지를 가져온다.")
     void test6() throws Exception {
         // given
-        // 30개 게시글 저장
+        // 20개 게시글 저장
         List<Post> requestPosts = IntStream.range(0, 20)
                 .mapToObj(i-> Post.builder()
                         .title("테스트 제목 " + i)
@@ -245,6 +245,24 @@ class PostControllerTest {
         mockMvc.perform(patch("/posts/{postId}", post.getId())
                         .contentType(APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(postEdit)))
+                .andExpect(status().isOk())
+                .andDo(print());
+
+    }
+
+    @Test
+    @DisplayName("게시글 삭제")
+    void test8() throws Exception {
+        // given
+        Post post = Post.builder()
+                .title("foo")
+                .content("bar")
+                .build();
+        postRepository.save(post);
+
+        // expected
+        mockMvc.perform(delete("/posts/{postId}", post.getId())
+                        .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
 
