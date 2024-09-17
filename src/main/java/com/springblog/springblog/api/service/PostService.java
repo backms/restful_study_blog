@@ -2,6 +2,7 @@ package com.springblog.springblog.api.service;
 
 import com.springblog.springblog.api.domain.Post;
 import com.springblog.springblog.api.domain.PostEditor;
+import com.springblog.springblog.api.exception.PostNotFound;
 import com.springblog.springblog.api.requset.PostCreate;
 import com.springblog.springblog.api.repository.PostRepository;
 import com.springblog.springblog.api.requset.PostEdit;
@@ -42,7 +43,8 @@ public class PostService {
 
     public PostResponse get(Long id) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+//                .orElseThrow(() -> new PostNotFound());
+                .orElseThrow(PostNotFound::new);
 
         return PostResponse.builder()
                 .id(post.getId())
@@ -65,7 +67,7 @@ public class PostService {
     @Transactional
     public PostResponse edit(Long id, PostEdit postEdit) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+                .orElseThrow(PostNotFound::new);
 
 
         PostEditor.PostEditorBuilder editorBuilder = post.toEditor();
@@ -83,7 +85,7 @@ public class PostService {
 
     public void delete(Long id) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+                .orElseThrow(PostNotFound::new);
 
         postRepository.delete(post);
 

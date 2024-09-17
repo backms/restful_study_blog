@@ -1,6 +1,7 @@
 package com.springblog.springblog.api.service;
 
 import com.springblog.springblog.api.domain.Post;
+import com.springblog.springblog.api.exception.PostNotFound;
 import com.springblog.springblog.api.repository.PostRepository;
 import com.springblog.springblog.api.requset.PostCreate;
 import com.springblog.springblog.api.requset.PostEdit;
@@ -169,7 +170,6 @@ class PostServiceTest {
                 .orElseThrow(() -> new RuntimeException("글이 존재하지 않습니다. id=" + post.getId()));
         assertEquals("barbel", changedPost.getContent());
 
-
     }
 
     @Test
@@ -188,9 +188,65 @@ class PostServiceTest {
         // then
         assertEquals(0, postRepository.count());
 
+    }
+
+
+    @Test
+    @DisplayName("글 1개 조회 - 존재하지 앟는 글")
+    void test7() {
+        // given
+        Post post = Post.builder()
+                .title("제목테스트")
+                .content("내용테스트")
+                .build();
+        postRepository.save(post);
+
+        // expected
+        Assertions.assertThrows(PostNotFound.class, () -> {
+            postService.get(post.getId() + 2L);
+        });
 
     }
 
+    @Test
+    @DisplayName("게시글 삭제 - 존재하지 않는 글")
+    void test8() {
+        // given
+        Post post = Post.builder()
+                .title("foo")
+                .content("bar")
+                .build();
+        postRepository.save(post);
+
+        // expected
+        Assertions.assertThrows(PostNotFound.class, () -> {
+            postService.delete(post.getId() + 2L);
+        });
+
+
+    }
+
+    @Test
+    @DisplayName("글 내용 수정 - 존재하지 않는 글")
+    void test9() {
+        // given
+        Post post = Post.builder()
+                .title("foo")
+                .content("bar")
+                .build();
+        postRepository.save(post);
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("foo")
+                .content("barbel")
+                .build();
+
+        // expected
+        Assertions.assertThrows(PostNotFound.class, () -> {
+            postService.edit(post.getId() + 1L, postEdit);
+        });
+
+    }
 
 
 }

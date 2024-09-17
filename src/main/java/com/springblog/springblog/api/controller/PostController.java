@@ -1,6 +1,7 @@
 package com.springblog.springblog.api.controller;
 
 import com.springblog.springblog.api.domain.Post;
+import com.springblog.springblog.api.exception.InvalidRequest;
 import com.springblog.springblog.api.requset.PostCreate;
 import com.springblog.springblog.api.requset.PostEdit;
 import com.springblog.springblog.api.requset.PostSearch;
@@ -29,6 +30,8 @@ public class PostController {
         // 2. 저장한 데이터의 pk_id => response 로 응답하기
         //      client에서는 수신한 id를 글 조회 api를 통해서 데이터 수신받음
         // 3. 응답 필요 없음
+        request.validate();
+
         postService.write(request);
     }
 
