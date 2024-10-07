@@ -24,15 +24,27 @@ public class PostController {
 
     private final PostService postService;
 
+    @GetMapping("/test")
+    public String test() {
+        return "hello";
+    }
+
+    @GetMapping("/foo")
+    public String foo() {
+        return "foo";
+    }
+
     @PostMapping("/posts")
     public void post(@RequestBody @Valid PostCreate request) {    //@Valid 어노테이션 -> PostCreate의  @NotBlank 연계
         // 1. 저장한 데이터 Entity => response 로 응답하기
         // 2. 저장한 데이터의 pk_id => response 로 응답하기
         //      client에서는 수신한 id를 글 조회 api를 통해서 데이터 수신받음
         // 3. 응답 필요 없음
-        request.validate();
 
+        // 사용자 인증은 header로 받아서 처리
+        request.validate();
         postService.write(request);
+
     }
 
     /**
