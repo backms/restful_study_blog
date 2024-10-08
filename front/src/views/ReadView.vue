@@ -83,4 +83,4 @@ onMounted(() => {
   white-space: break-spaces;
   line-height: 1.5;
 }
-</script>
+</style>

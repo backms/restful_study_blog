@@ -37,7 +37,7 @@ axios.get("/api/posts?page=1&size=5")
   </ul>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 ul {
   list-style: none;
   padding: 0;

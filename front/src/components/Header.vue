@@ -14,6 +14,5 @@
 <style scoped>
 .header {
   padding: 0;
-  width: 120px;
 }
 </style>
