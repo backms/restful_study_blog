@@ -1,0 +1,1 @@
+insert into `user` (name, email, password, created_at) values ('백민수', 'mixoo@gmail.com', '1234', '2024-10-08 23:00:00')

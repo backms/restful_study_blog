@@ -1,21 +1,17 @@
 package com.springblog.springblog.api.controller;
 
-import com.springblog.springblog.api.domain.Post;
-import com.springblog.springblog.api.exception.InvalidRequest;
-import com.springblog.springblog.api.requset.PostCreate;
-import com.springblog.springblog.api.requset.PostEdit;
-import com.springblog.springblog.api.requset.PostSearch;
+import com.springblog.springblog.api.config.data.UserSession;
+import com.springblog.springblog.api.request.PostCreate;
+import com.springblog.springblog.api.request.PostEdit;
+import com.springblog.springblog.api.request.PostSearch;
 import com.springblog.springblog.api.response.PostResponse;
 import com.springblog.springblog.api.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -24,14 +20,15 @@ public class PostController {
 
     private final PostService postService;
 
-    @GetMapping("/test")
-    public String test() {
-        return "hello";
+    @GetMapping("/foo")
+    public Long foo(UserSession userSession) {
+        log.info(">>> {}", userSession.id);
+        return userSession.id;
     }
 
-    @GetMapping("/foo")
+    @GetMapping("/var")
     public String foo() {
-        return "foo";
+        return "인증이 필요없는 페이지";
     }
 
     @PostMapping("/posts")

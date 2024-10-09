@@ -1,4 +1,4 @@
-package com.springblog.springblog.api.requset;
+package com.springblog.springblog.api.request;
 
 
 import lombok.*;

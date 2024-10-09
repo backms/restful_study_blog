@@ -3,7 +3,7 @@ package com.springblog.springblog.api.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.springblog.springblog.api.domain.Post;
 import com.springblog.springblog.api.domain.QPost;
-import com.springblog.springblog.api.requset.PostSearch;
+import com.springblog.springblog.api.request.PostSearch;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

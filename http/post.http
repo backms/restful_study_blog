@@ -1,0 +1,5 @@
+### 테스트 요청
+
+GET http://localhost:8080/foo
+Content-type: application/json
+Authorization: asdf

@@ -1,7 +1,6 @@
-package com.springblog.springblog.api.requset;
+package com.springblog.springblog.api.request;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 @Getter

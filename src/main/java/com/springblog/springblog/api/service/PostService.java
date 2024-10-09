@@ -3,21 +3,16 @@ package com.springblog.springblog.api.service;
 import com.springblog.springblog.api.domain.Post;
 import com.springblog.springblog.api.domain.PostEditor;
 import com.springblog.springblog.api.exception.PostNotFound;
-import com.springblog.springblog.api.requset.PostCreate;
+import com.springblog.springblog.api.request.PostCreate;
 import com.springblog.springblog.api.repository.PostRepository;
-import com.springblog.springblog.api.requset.PostEdit;
-import com.springblog.springblog.api.requset.PostSearch;
+import com.springblog.springblog.api.request.PostEdit;
+import com.springblog.springblog.api.request.PostSearch;
 import com.springblog.springblog.api.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -3,7 +3,7 @@ package com.springblog.springblog.api.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springblog.springblog.api.domain.Post;
 import com.springblog.springblog.api.repository.PostRepository;
-import com.springblog.springblog.api.requset.PostCreate;
+import com.springblog.springblog.api.request.PostCreate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
