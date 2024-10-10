@@ -16,14 +16,14 @@ public class AuthService {
     private final UserRepository userRepository;
 
     @Transactional
-    public String signin(Login login) throws InvalidSigninInfomation {
+    public Long signin(Login login) throws InvalidSigninInfomation {
         // DB 조회
         User user = userRepository.findByEmailAndPassword(login.getEmail(), login.getPassword())
                 .orElseThrow(() -> new InvalidSigninInfomation());
 
         Session session = user.addSession();
 
-        return session.getAccessToken();
+        return user.getId();
 
     }
 
