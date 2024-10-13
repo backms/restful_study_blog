@@ -7,6 +7,7 @@ import com.springblog.springblog.api.domain.User;
 import com.springblog.springblog.api.repository.SessionRepository;
 import com.springblog.springblog.api.repository.UserRepository;
 import com.springblog.springblog.api.request.Login;
+import com.springblog.springblog.api.request.Signup;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -173,6 +174,25 @@ class AuthControllerTest {
                         .header("Authorization", session.getAccessToken() + "-other")
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isUnauthorized())
+                .andDo(print());
+
+    }
+
+    @Test
+    @DisplayName("회원가입")
+    void test6() throws Exception {
+        // given
+        Signup signup = Signup.builder()
+                .email("mixoo@gmail.com")
+                .password("1234")
+                .name("mixoo")
+                .build();
+
+        // expected
+        mockMvc.perform(post("/auth/signup")
+                        .content(objectMapper.writeValueAsString(signup))
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk())
                 .andDo(print());
 
     }

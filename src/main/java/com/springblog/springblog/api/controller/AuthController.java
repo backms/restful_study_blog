@@ -3,6 +3,7 @@ package com.springblog.springblog.api.controller;
 import com.google.common.net.HttpHeaders;
 import com.springblog.springblog.api.config.AppConfig;
 import com.springblog.springblog.api.request.Login;
+import com.springblog.springblog.api.request.Signup;
 import com.springblog.springblog.api.response.SessionResponse;
 import com.springblog.springblog.api.service.AuthService;
 import io.jsonwebtoken.Jwts;
@@ -65,6 +66,12 @@ public class AuthController {
 
         return new SessionResponse(jws);
 
+    }
+
+
+    @PostMapping("/auth/signup")
+    public void signup(@RequestBody Signup signup){
+        authService.signup(signup);
     }
 
 }

@@ -12,8 +12,8 @@ spring:
 
   jpa:
     defer-datasource-initialization: true
-  sql:
-    init-model: always
+#  sql:
+#    init.mode: always
 
   data:
     web:
