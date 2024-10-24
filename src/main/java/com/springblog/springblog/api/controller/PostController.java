@@ -1,6 +1,5 @@
 package com.springblog.springblog.api.controller;
 
-import com.springblog.springblog.api.config.data.UserSession;
 import com.springblog.springblog.api.request.PostCreate;
 import com.springblog.springblog.api.request.PostEdit;
 import com.springblog.springblog.api.request.PostSearch;
@@ -10,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -19,17 +18,6 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
-
-    @GetMapping("/foo")
-    public Long foo(UserSession userSession) {
-        log.info(">>> {}", userSession.id);
-        return userSession.id;
-    }
-
-    @GetMapping("/var")
-    public String foo() {
-        return "인증이 필요없는 페이지";
-    }
 
     @PostMapping("/posts")
     public void post(@RequestBody @Valid PostCreate request) {    //@Valid 어노테이션 -> PostCreate의  @NotBlank 연계

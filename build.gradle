@@ -1,13 +1,13 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.5.9'
+    id 'org.springframework.boot' version '3.0.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id "org.asciidoctor.jvm.convert" version "3.3.2"
 }
 
 group 'org.blog'
 version '1.0-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '17'
 
 configurations {
     compileOnly {
@@ -22,7 +22,6 @@ repositories {
 }
 
 ext {
-    asciidocVersion = "2.0.6.RELEASE"
     snippetsDir = file('build/generated-snippets')
 }
 
@@ -32,24 +31,26 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.security:spring-security-crypto'
 
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-test'
+
     implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
 
-    implementation 'com.querydsl:querydsl-core'
-    implementation 'com.querydsl:querydsl-jpa'
-    implementation 'junit:junit:4.13.1'
+    implementation 'com.querydsl:querydsl-core:5.0.0'
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+    annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 
+    implementation 'junit:junit:4.13.1'
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
-    asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor:${asciidocVersion}"
-    testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:${asciidocVersion}"
+    asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor:3.0.0"
+    testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:3.0.0"
 
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-
-    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
-    annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
-    annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'

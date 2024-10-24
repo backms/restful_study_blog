@@ -3,7 +3,7 @@ package com.springblog.springblog.api.request;
 import com.springblog.springblog.api.exception.InvalidRequest;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 @Setter
 @Getter
