@@ -1,9 +1,6 @@
 ### 로그인
 
 POST http://localhost:8080/auth/login
-Content-type: application/json
+Content-type: application/x-www-form-urlencoded
 
-{
-  "email": "mixoo@gmail.com",
-  "password": "1234"
-}
+username=minxoo&password=1234
