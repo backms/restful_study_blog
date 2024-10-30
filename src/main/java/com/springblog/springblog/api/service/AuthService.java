@@ -1,14 +1,12 @@
 package com.springblog.springblog.api.service;
 
-import com.springblog.springblog.api.crypto.ScryptPasswordEncoder;
 import com.springblog.springblog.api.domain.User;
 import com.springblog.springblog.api.exception.AlreadyExistsEmailException;
-import com.springblog.springblog.api.exception.InvalidSigninInformation;
 import com.springblog.springblog.api.repository.UserRepository;
 import com.springblog.springblog.api.request.Signup;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -17,7 +15,7 @@ import java.util.Optional;
 public class AuthService {
 
     private final UserRepository userRepository;
-    private final ScryptPasswordEncoder scryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public void signup(Signup signup) {
 
@@ -26,7 +24,7 @@ public class AuthService {
             throw new AlreadyExistsEmailException();
         }
 
-        String encryptedPassword = scryptPasswordEncoder.encrypt(signup.getPassword());
+        String encryptedPassword = passwordEncoder.encode(signup.getPassword());
 
         var user = User.builder()
                 .name(signup.getName())
